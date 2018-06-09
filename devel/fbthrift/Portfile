@@ -40,4 +40,6 @@ configure.args      -DBUILD_SHARED_LIBS=ON
 # port pulls in as a dependency.
 # https://github.com/facebook/fbthrift/issues/278
 configure.args-append \
-                    -DKRB5_C_CONFIG=/usr/bin/krb5-config
+                    -DKRB5_C_CONFIG=/usr/bin/krb5-config \
+                    -DKRB5_gssapi_krb5_LIBRARY=/usr/lib/libgssapi_krb5.dylib \
+                    -DKRB5_krb5_LIBRARY=/usr/lib/libkrb5.dylib
