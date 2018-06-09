@@ -2,6 +2,7 @@
 
 PortSystem          1.0
 PortGroup           cmake 1.1
+PortGroup           conflicts_build 1.0
 PortGroup           cxx11 1.1
 PortGroup           github 1.0
 
@@ -34,12 +35,8 @@ depends_lib-append  port:boost \
 
 patchfiles          DYLD_LIBRARY_PATH.patch
 
-configure.args      -DBUILD_SHARED_LIBS=ON
-
-# fbthrift will fail to build with libcomerr from e2fsprogs, which the kerberos5
-# port pulls in as a dependency.
 # https://github.com/facebook/fbthrift/issues/278
-configure.args-append \
-                    -DKRB5_C_CONFIG=/usr/bin/krb5-config \
-                    -DKRB5_gssapi_krb5_LIBRARY=/usr/lib/libgssapi_krb5.dylib \
-                    -DKRB5_krb5_LIBRARY=/usr/lib/libkrb5.dylib
+conflicts_build-append \
+                    kerberos5 libcomerr
+
+configure.args      -DBUILD_SHARED_LIBS=ON
