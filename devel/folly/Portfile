@@ -2,11 +2,10 @@
 
 PortSystem          1.0
 PortGroup           github 1.0
-PortGroup           cxx11 1.1
 PortGroup           cmake 1.1
+PortGroup           cxx11 1.1
 
-github.setup        facebook folly 2018.05.28.00 v
-revision            1
+github.setup        facebook folly 2018.06.04.00 v
 categories          devel
 platforms           darwin
 license             Apache-2
@@ -16,9 +15,9 @@ maintainers         nomaintainer
 description         An open-source C++ library developed and used at Facebook.
 long_description    ${description}
 
-checksums           rmd160  8ab6f6652a14a34610b27ca97b70476400f9defe \
-                    sha256  73c5bfa832ff9e1053dd3c3010850280da111f7e75b36b6c86cc791e22a684f9 \
-                    size    2318525
+checksums           rmd160  707edbd3d91a51d02fb5b3741b463802ecb31e49 \
+                    sha256  a416316e462c3b2d209764bfe6cab9fc5e653c66894e755c0d1c95558d0772a1 \
+                    size    2299313
 
 patchfiles          patch-cmakelists.diff patch-cmake-config.diff
 
