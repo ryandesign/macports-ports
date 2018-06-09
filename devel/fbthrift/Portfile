@@ -32,4 +32,6 @@ depends_lib-append  port:boost \
                     port:folly \
                     port:zstd
 
+patchfiles          DYLD_LIBRARY_PATH.patch
+
 configure.args      -DBUILD_SHARED_LIBS=ON
