@@ -33,5 +33,10 @@ if {${name} ne ${subport}} {
     depends_lib-append  port:libffi \
                         port:py${python.version}-pycparser
 
+    variant bigsur {
+        depends_lib-delete port:libffi
+        patchfiles-append bigsur.patch
+    }
+
     livecheck.type      none
 }

@@ -1,0 +1,25 @@
+Trust libffi on macOS, based on the description of
+https://github.com/python/cpython/pull/21239
+
+Don't try to use pkgconfig; use macOS libffi.
+--- c/_cffi_backend.c.orig	2020-02-07 09:40:09.000000000 -0600
++++ c/_cffi_backend.c	2020-07-12 22:26:22.000000000 -0500
+@@ -84,7 +84,7 @@
+  * known that on the NetBSD kernel, a different strategy is used which
+  * should not be open to the fork() bug.
+  */
+-#ifdef __NetBSD__
++#if defined(__NetBSD__) || defined(__APPLE__)
+ # define CFFI_TRUST_LIBFFI
+ #endif
+ 
+--- setup.py.orig	2020-02-07 09:40:09.000000000 -0600
++++ setup.py	2020-07-12 21:56:38.000000000 -0500
+@@ -145,7 +145,6 @@
+     sources.extend(os.path.join(COMPILE_LIBFFI, filename)
+                    for filename in _filenames)
+ else:
+-    use_pkg_config()
+     ask_supports_thread()
+     ask_supports_sync_synchronize()
+ 
