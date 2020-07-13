@@ -1,0 +1,33 @@
+https://bugs.python.org/issue41100
+https://github.com/python/cpython/pull/21266
+
+From bf266d68cfe66e414cc9a8bbf78d55792a59e3cd Mon Sep 17 00:00:00 2001
+From: Lawrence D'Anna <lawrence_danna@apple.com>
+Date: Wed, 1 Jul 2020 10:06:11 -0700
+Subject: [PATCH 1/3] test fixes for Mac OS 11
+
+test_platform: add arm64 to list of expected arches on Mac OS
+
+test_distutils: don't assume Mac OS major version is always 10
+--- Lib/distutils/tests/test_build_ext.py
++++ Lib/distutils/tests/test_build_ext.py
+@@ -492,7 +492,7 @@ def _try_compile_deployment_target(self, operator, target):
+         # format the target value as defined in the Apple
+         # Availability Macros.  We can't use the macro names since
+         # at least one value we test with will not exist yet.
+-        if target[1] < 10:
++        if target < (10, 10):
+             # for 10.1 through 10.9.x -> "10n0"
+             target = '%02d%01d0' % target
+         else:
+--- Lib/test/test_platform.py
++++ Lib/test/test_platform.py
+@@ -246,7 +246,7 @@ def test_mac_ver(self):
+             self.assertEqual(res[1], ('', '', ''))
+ 
+             if sys.byteorder == 'little':
+-                self.assertIn(res[2], ('i386', 'x86_64'))
++                self.assertIn(res[2], ('i386', 'x86_64', 'arm64'))
+             else:
+                 self.assertEqual(res[2], 'PowerPC')
+ 

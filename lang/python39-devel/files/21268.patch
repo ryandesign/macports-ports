@@ -1,0 +1,18 @@
+https://bugs.python.org/issue41100
+https://github.com/python/cpython/pull/21268
+
+From e7f350e586477dd1299a23d4c70a5d8468682adf Mon Sep 17 00:00:00 2001
+From: Lawrence D'Anna <lawrence_danna@apple.com>
+Date: Wed, 1 Jul 2020 11:48:25 -0700
+Subject: [PATCH 1/2] pythonw: add arm64 support
+--- Mac/Tools/pythonw.c
++++ Mac/Tools/pythonw.c
+@@ -121,6 +121,8 @@ setup_spawnattr(posix_spawnattr_t* spawnattr)
+     cpu_types[0] = CPU_TYPE_POWERPC;
+ #elif defined(__i386__)
+     cpu_types[0] = CPU_TYPE_X86;
++#elif defined(__arm64__)
++    cpu_types[0] = CPU_TYPE_ARM64;
+ #else
+ #       error "Unknown CPU"
+ #endif

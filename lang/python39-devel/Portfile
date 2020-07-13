@@ -151,6 +151,15 @@ post-destroot {
     }
 }
 
+variant bigsur {
+    depends_lib-delete  port:libffi
+    patchfiles-prepend  21224.patch \
+                        21241.patch \
+                        21249.patch \
+                        21266.patch \
+                        21268.patch
+}
+
 notes "
 To make this the default Python or Python 3 (i.e., the version run by\
 the 'python' or 'python3' commands), run one or both of:
