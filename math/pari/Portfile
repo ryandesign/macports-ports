@@ -136,12 +136,14 @@ platform darwin 10 powerpc {
 # https://trac.macports.org/ticket/67336
 depends_build port:gnutar
 post-destroot {
-    system "sleep 10"
-    system -W ${destroot} "${prefix}/bin/gtar -cvf - --sparse . 2>/dev/null | wc"
-    system -W ${destroot} "/usr/bin/tar -cvf - . 2>/dev/null | wc"
+    system "sleep 20"
+    system -W ${destroot} "${prefix}/bin/gtar cf - . | wc"
+    system -W ${destroot} "${prefix}/bin/gtar cf - --sparse . | wc"
+    system -W ${destroot} "/usr/bin/tar cf - . | wc"
     system "/usr/sbin/purge"
-    system -W ${destroot} "${prefix}/bin/gtar -cvf - --sparse . 2>/dev/null | wc"
-    system -W ${destroot} "/usr/bin/tar -cvf - . 2>/dev/null | wc"
+    system -W ${destroot} "${prefix}/bin/gtar cf - . | wc"
+    system -W ${destroot} "${prefix}/bin/gtar cf - --sparse . | wc"
+    system -W ${destroot} "/usr/bin/tar cf - . | wc"
 }
 
 livecheck.type      regex
