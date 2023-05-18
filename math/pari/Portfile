@@ -2,7 +2,6 @@
 
 PortSystem          1.0
 PortGroup           muniversal 1.0
-PortGroup           compiler_blacklist_versions 1.0
 
 name                pari
 version             2.15.3
@@ -25,10 +24,6 @@ checksums           rmd160  0800d47ae5ab1eecb04fa5bd7e9b3279e0ec7847 \
                     sha256  adf5a58638cdafd72a8b48bc9f444972b23329c8d545a1d3ed1bbeb1b6569268 \
                     size    5178288
 
-# System's tar on at least macOS Ventura is broken
-# See: https://trac.macports.org/ticket/67336
-set portarchivetype xar
-
 depends_lib         port:gmp \
                     port:ncurses \
                     port:readline
@@ -40,9 +35,6 @@ platform darwin 8 {
 
 # llvm-gcc produces incorrect code, ticket #33024
 compiler.blacklist-append llvm-gcc-4.2
-
-# See: https://trac.macports.org/ticket/59295
-compiler.blacklist-append {clang}
 
 configure.cmd       ./Configure
 
@@ -138,6 +130,17 @@ platform darwin 10 powerpc {
     # Without this settings get wrong in Rosetta:
     # Building for: i386 running darwin (ix86/GMP kernel) 32-bit version
     patchfiles-append patch-rosetta.diff
+}
+
+# Testing workarounds for archive corruption bug:
+# https://trac.macports.org/ticket/67336
+depends_build port:gnutar
+post-destroot {
+    system -W ${destroot} "${prefix}/bin/gtar -cvf - . 2>/dev/null | wc"
+    system -W ${destroot} "/usr/bin/tar -cvf - . 2>/dev/null | wc"
+    system "sleep 10"
+    system -W ${destroot} "${prefix}/bin/gtar -cvf - . 2>/dev/null | wc"
+    system -W ${destroot} "/usr/bin/tar -cvf - . 2>/dev/null | wc"
 }
 
 livecheck.type      regex
